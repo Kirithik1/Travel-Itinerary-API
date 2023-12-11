@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(Assets/iuyty.jpeg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 60vh;
+        }
+        .tra1 {
+            background-image: url(Assets/letterbackgrounf.webp);
+            box-shadow: 0 0 40px #5ee4ff;
+            background-color: black;
+            border: 1px solid;
+            width: 31%;
+            margin-left: 33%;
+            margin-right: 25%;
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 30px;
+            color: cyan;
+            align-items: center;
+            text-align: center;
+            font-family: revert;
+            font-size: 37px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 86px;
+            font-family: fantasy;
+        }
+
+        label {
+            margin-bottom: 14px;
+            font-weight: bold;
+            color: chartreuse;
+            font-family: serif;
+            font-size: 20px;
+        }
+
+        input {
+            width: 18%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 10%;
+            padding: 10px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: cyan;
+            color: black;
+        }
+
+        .alert {
+            margin-top: 16px;
+            padding: 10px;
+            border: 1px solid #dc3545;
+            border-radius: 4px;
+            color: #dc3545;
+            background-color: #f8d7da;
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                width: 80%;
+            }
+        }
+        
+        button {
+            /* background-image: url(Assets/letterbackgrounf.webp); */
+            background-color: #000;
+            border: 0 solid #000;
+            border-radius: 30px;
+            box-shadow: 0 0 10px #576ee0;
+            color: #576ee0;
+            color: var(--first-color);
+            color: cyan;
+            padding: 7px;
+            width: 120px;
+            height: 46px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="tra1">CREATE USER</div>
+        <form id="userForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="button" onclick="createUser()">Create User</button>
+        </form>
+        <div id="responseMessage"></div>
+    </div>
+
+    <script>
+        function createUser() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const user = {
+                username: username,
+                password: password
+            };
+
+            fetch('http://localhost:8080/travel_01/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("responseMessage").innerText = data.message;
+                    if (data.status === 'Created') {
+                        document.getElementById("responseMessage").style.color = 'green';
+                    } else {
+                        document.getElementById("responseMessage").style.color = 'red';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>

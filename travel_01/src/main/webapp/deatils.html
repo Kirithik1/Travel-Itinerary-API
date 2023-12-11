@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(Assets/aaaaa.jpeg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 60vh;
+        }
+        .t1 {
+            box-shadow: 0 0 11px gold;
+        background-color: gold;
+        border: 1px solid;
+        width: 16%;
+        margin-left: 5%;
+        margin-right: 21%;
+        margin-top: 75px;
+        padding: 9px;
+        border-radius: 16px;
+        font-size: 21px;
+        text-align: center;
+        color: black;
+        font-family: revert;
+        font-stretch: semi-expanded;
+        }
+        h2 {
+            color: #333;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: black;
+            color: gold;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        .p1 {
+            box-shadow: 0 0 40px #5ee4ff;
+            background-color: black;
+            border: 1px solid;
+            width: 30%;
+            margin-left: 33%;
+            margin-right: 21%;
+            margin-top: 29px;
+            padding: 21px;
+            border-radius: 30px;
+            font-size: 35px;
+            text-align: center;
+            color: aqua;
+            font-family: revert;
+            font-stretch: semi-expanded;
+        }
+        .ee {
+            font-size: 24px;
+            background-color: aqua;
+            margin: 0px 4px 7px 79px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="p1">TRAVEL DETAILS</div>
+
+    <div><button class="t1" onclick="displayAllDetails()">Display All Details</button><br /></div>
+
+    <div>
+        <label class="ee" for="destination">Enter Destination:</label>
+        <input type="text" id="destination" placeholder="Enter destination">
+
+        <button class="t1" onclick="displayDetailsByDestination()">Search by Destination</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        function displayAllDetails() {
+    fetch('http://localhost:8080/travel_01/traveldetails', {
+        method: 'GET',
+        mode: 'no-cors'
+    })
+    .then(response => response.json())
+    .then(data => displayResults(data))
+    .catch(error => console.error('Error:', error));
+}
+
+function displayDetailsByDestination() {
+    const destination = document.getElementById('destination').value;
+    if (!destination) {
+        alert('Please enter a destination');
+        return;
+    }
+
+    fetch(`http://localhost:8080/travel_01/traveldetails?destination=${destination}`, {
+        method: 'GET',
+        mode: 'no-cors'
+    })
+    .then(response => response.json())
+    .then(data => displayResults(data))
+    .catch(error => console.error('Error:', error));
+}
+
+        function displayResults(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (data.destinations && data.destinations.length > 0) {
+                const destinations = data.destinations;
+                const ul = document.createElement('ul');
+
+                destinations.forEach(destination => {
+                    const li = document.createElement('li');
+                    li.textContent = `Destination: ${destination.destination}, Date: ${destination.date}, Eat: ${destination.eat}, Leisure: ${destination.leisure}, Transportation: ${destination.transportation}`;
+                    ul.appendChild(li);
+                });
+
+                resultDiv.appendChild(ul);
+            } else {
+                resultDiv.textContent = 'No data available';
+            }
+        }
+    </script>
+
+</body>
+</html>

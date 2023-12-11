@@ -1,0 +1,190 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Itinerary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 57px;
+            background-image: url('Assets/hrbdye.avif'); /* Replace with the actual path to your image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff; /* Set text color to make it readable on the background */
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+            margin: 40px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+
+        /* button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        } */
+
+        button:hover {
+            background-color: cyan;
+            color: #333;
+        }
+        .addt{
+            box-shadow: 0 0 40px black;
+            background-color: gold;
+            width: 19%;
+            margin-left: -6%;
+            margin-right: 17%;
+            margin-top: 16px;
+            padding: 11px;
+            border-radius: 18px;
+            font-size: 24px;
+            text-align: center;
+            color: black;
+            font-weight: 500px;
+            font-stretch: semi-expanded;
+                    font-stretch: semi-expanded;
+        }
+        .t1 {
+            box-shadow: 0 0 40px #5ee4ff;
+            background-color: black;
+            border: 1px solid;
+            width: 38%;
+            margin-left: 30%;
+            margin-right: 21%;
+            margin-top: 29px;
+            padding: 21px;
+            border-radius: 30px;
+            font-size: 35px;
+            text-align: center;
+            color: aqua;
+            font-family: revert;
+            font-stretch: semi-expanded;
+        }
+        .ele {
+            font-size: 21px;
+            font-family: inherit;
+            font-weight: 66px;
+            color: cyan;
+            background-color: black;
+            display: inline;
+        }
+        .eleform {
+            border-radius: 10px;
+            
+        }
+        .sub {
+            box-shadow: 0 0 40px #5ee4ff;
+            background-color: black;
+            border: 1px solid;
+            width: 21%;
+            margin-left: 11%;
+            margin-right: 12%;
+            margin-top: 10px;
+            padding: 13px;
+            border-radius: 30px;
+            font-size: 24px;
+            text-align: center;
+            color: aqua;
+            font-family: revert;
+            font-stretch: semi-expanded;
+        }
+        .upd{
+            box-shadow: 0 0 40px #5ee4ff;
+            background-color: black;
+            border: 1px solid;
+            width: 139%;
+            margin-left: -15%;
+            margin-right: 12%;
+            margin-top: 53px;
+            padding: 13px;
+            border-radius: 14px;
+            font-size: 25px;
+            text-align: center;
+            color: aqua;
+            font-family: revert;
+            font-stretch: semi-expanded;
+        }
+    </style>
+    <script>
+        function addDestination() {
+            var destinationid = document.getElementById("destinationid").value;
+            var destination = document.getElementById("destination").value;
+            var date = document.getElementById("date").value;
+            var eat = document.getElementById("eat").value;
+            var leisure = document.getElementById("leisure").value;
+            var transportation = document.getElementById("transportation").value;
+
+            var data = {
+                "destinationid": destinationid,
+                "destination": destination,
+                "date": date,
+                "Eat": eat,
+                "Leisure": leisure,
+                "Transportation": transportation
+            };
+
+            fetch('http://localhost:8080/travel_01/traveltoadd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                mode: "no-cors",
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok ||response.Created) {
+                    alert('Destination added successfully!');
+                } else {
+                    alert('Failed to add destination. Please check the data and try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="t1">Travel Itinerary Details</div>
+    <div style="margin: 50px;">
+        <div class="addt">Add Destination</div>
+        <div>
+            <form >
+                <div style="display: flex;width: 100%; ">
+                    <div style="margin: 40px; width: 20%;">
+                        <div class="ele">Destination ID:</div>
+                            <div class="eleform"><input type="text" id="destinationid" required></div>
+                        <div class="ele">Destination:</div>
+                            <div class="eleform"><input type="text" id="destination" required><br></div>
+                        <div class="ele">Date:</div>
+                            <div class="eleform"><input type="date" id="date" required><br></div>
+                    </div>
+                    <div style="margin: 40px; width: 30%">
+                        <div class="ele">Eat:</div>
+                            <div class="eleform" ><input type="text" id="eat" required><br></div>
+                        <div class="ele">Leisure:</div> 
+                            <div class="eleform"><input type="text" id="leisure" required><br></div>
+                        <div class="ele">Transportation:</div>
+                            <div class="eleform"><input type="text" id="transportation" required><br></div>
+                    </div>
+                    <div ><button class="upd" onclick="window.location.href='update.html'">Update travel details</button></div>
+                </div>
+                <div><button class="sub" type="button" onclick="addDestination()">Submit the Details</button></div>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>
